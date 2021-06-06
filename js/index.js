@@ -16,9 +16,26 @@ const [btnPrev, btnNext] = document.querySelectorAll(
 const btnClickHendler =
   (direction = 'next') =>
   e => {
-    slider.currentIndex =
-      slider[direction === 'next' ? 'nextIndex' : 'prevIndex'];
-    imageElement.setAttribute('src', slider.currentSlide);
+
+    let opacityLevel = 0;
+    imageElement.setAttribute('src', 'https://74foto.ru/wp-content/uploads/foto-belyj-fon-bez-risunka_44.jpg');
+    let end;
+
+    for (let i = 0; i <= 100; i++) {
+      setTimeout( () => {
+        if ( i >= 20 ) {
+          imageElement.setAttribute('src', slider.currentSlide);
+        };
+
+        imageElement.style.opacity = `${i * 0.01}`;
+        end = i * 7;
+        console.log('i :>> ', i);
+      }, i === 0 ? 7 : i * 7);
+    }
+
+    setTimeout( () => {
+      slider.currentIndex = slider[direction === 'next' ? 'nextIndex' : 'prevIndex'];
+    }, end);
   };
 
 btnPrev.addEventListener('click', btnClickHendler('prev'));
