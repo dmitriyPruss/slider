@@ -30,4 +30,26 @@ class Slider {
   get currentSlide() {
     return this._slides[this._currentIndex];
   }
+  delaySlide(direction, elem, delay) {
+
+    const self = this;
+
+    return function(backImg, delay, timeBackImg) {
+      let opacityLevel = 0;
+
+      elem.setAttribute('src', backImg);
+      self.currentIndex = self[direction === 'next' ? 'nextIndex' : 'prevIndex'];
+
+      for (let i = 0; i <= 100; i++) {
+        setTimeout( () => {
+          if ( i >= timeBackImg ) {
+            elem.setAttribute('src', self.currentSlide);
+          };
+  
+          elem.style.opacity = `${i * 0.01}`;
+        }, i === 0 ? delay : i * delay);
+      };
+  
+    };
+  }
 }

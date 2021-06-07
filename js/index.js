@@ -12,50 +12,19 @@ const imageElement = document.querySelector('img');
 const [btnPrev, btnNext] = document.querySelectorAll(
   '.buttonContainer > button'
 );
-//каррирование
-const btnClickHendler =
-  (direction = 'next') =>
-  e => {
-
-    let opacityLevel = 0;
-    imageElement.setAttribute('src', 'https://74foto.ru/wp-content/uploads/foto-belyj-fon-bez-risunka_44.jpg');
-    let end;
-
-    for (let i = 0; i <= 100; i++) {
-      setTimeout( () => {
-        if ( i >= 20 ) {
-          imageElement.setAttribute('src', slider.currentSlide);
-        };
-
-        imageElement.style.opacity = `${i * 0.01}`;
-        end = i * 7;
-        console.log('i :>> ', i);
-      }, i === 0 ? 7 : i * 7);
-    }
-
-    setTimeout( () => {
-      slider.currentIndex = slider[direction === 'next' ? 'nextIndex' : 'prevIndex'];
-    }, end);
-  };
-
-btnPrev.addEventListener('click', btnClickHendler('prev'));
-
-btnNext.addEventListener('click', btnClickHendler());
-
-loadImage(images[0]);
 
 const slider = new Slider(images);
 
-// function btnPrevHendler(e) {
-//   slider.currentIndex = slider.prevIndex;
-//   imageElement.setAttribute('src', slider.currentSlide);
-// }
+const prevHandler = slider.delaySlide('prev', imageElement);
+const nextHandler = slider.delaySlide('next', imageElement);
+const backImg = 'https://74foto.ru/wp-content/uploads/foto-belyj-fon-bez-risunka_44.jpg';
 
-// function btnNextHendler(e) {
-//   slider.currentIndex = slider.nextIndex;
-//   imageElement.setAttribute('src', slider.currentSlide);
-// }
+btnPrev.addEventListener('click', e => prevHandler(backImg, 8, 20) );
+
+btnNext.addEventListener('click', e => nextHandler(backImg, 10, 70) );
+
+loadImage(images[0]);
 
 function loadImage(image) {
   imageElement.setAttribute('src', image);
-}
+};
