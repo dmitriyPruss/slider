@@ -15,13 +15,15 @@ const [btnPrev, btnNext] = document.querySelectorAll(
 
 const slider = new Slider(images);
 
-const prevHandler = slider.delaySlide('prev', imageElement);
-const nextHandler = slider.delaySlide('next', imageElement);
-const backImg = 'https://74foto.ru/wp-content/uploads/foto-belyj-fon-bez-risunka_44.jpg';
+const delaySettings = {
+  direction: 'prev', 
+  imageElement: imageElement, 
+  delay: 8, 
+  timeBackImg: 20,
+};
 
-btnPrev.addEventListener('click', e => prevHandler(backImg, 8, 20) );
-
-btnNext.addEventListener('click', e => nextHandler(backImg, 10, 70) );
+btnPrev.addEventListener('click', slider.delaySlide(delaySettings) );
+btnNext.addEventListener('click', slider.delaySlide({imageElement}) );
 
 loadImage(images[0]);
 

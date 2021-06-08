@@ -30,26 +30,39 @@ class Slider {
   get currentSlide() {
     return this._slides[this._currentIndex];
   }
-  delaySlide(direction, elem, delay) {
+ 
+  /**
+   * @param {Object} object объект с различными свойствами
+   * 
+   * @param {string} object.direction - параметр, принимающий направление слайда
+   * @param {object} object.imageElement - картинка
+   * @param {string} object.backImg - фон на время перехода от одной картинки к другой
+   * @param {number} object.delay - показатель задержки перехода от одной картинки к другой (произвольная величина)
+   * @param {number} object.timeBackImg - показатель времени фона перехода от одной картинки к другой (произвольная величина)
+   * 
+   * @returns {undefined} nothing
+   */
+  delaySlide = ({
+    direction = 'next',
+    imageElement,
+    backImg = 'https://74foto.ru/wp-content/uploads/foto-belyj-fon-bez-risunka_44.jpg',
+    delay = 10,
+    timeBackImg = 70,
+  }) => 
+  e => {
+    let opacityLevel = 0;
 
-    const self = this;
+    imageElement.setAttribute('src', backImg);
+    this.currentIndex = this[direction === 'next' ? 'nextIndex' : 'prevIndex'];
 
-    return function(backImg, delay, timeBackImg) {
-      let opacityLevel = 0;
-
-      elem.setAttribute('src', backImg);
-      self.currentIndex = self[direction === 'next' ? 'nextIndex' : 'prevIndex'];
-
-      for (let i = 0; i <= 100; i++) {
-        setTimeout( () => {
-          if ( i >= timeBackImg ) {
-            elem.setAttribute('src', self.currentSlide);
-          };
-  
-          elem.style.opacity = `${i * 0.01}`;
-        }, i === 0 ? delay : i * delay);
-      };
-  
+    for (let i = 1; i <= 100; i++) {
+      setTimeout( () => {
+        if ( i === timeBackImg ) {
+          imageElement.setAttribute('src', this.currentSlide);
+        };
+        
+        imageElement.style.opacity = `${i * 0.01}`;
+      }, i === 0 ? delay : i * delay);
     };
-  }
-}
+  };
+};
