@@ -1,4 +1,5 @@
 'use strict';
+
 class Slider {
   constructor(slides, currentIndex = 0) {
     this._slides = slides;
@@ -49,20 +50,44 @@ class Slider {
     delay = 10,
     timeBackImg = 70,
   }) => 
-  e => {
-    let opacityLevel = 0;
+    e => {
 
-    imageElement.setAttribute('src', backImg);
-    this.currentIndex = this[direction === 'next' ? 'nextIndex' : 'prevIndex'];
+      if (typeof direction !== 'string' || typeof backImg !== 'string') {
+        throw new TypeError('Parameter is not a string!');
+      };
+      if (typeof delay !== 'number' || typeof timeBackImg !== 'number') {
+        throw new TypeError('Parameter is not a number!');
+      };
+      if (
+        Number.isNaN(delay) ||
+        !Number.isSafeInteger(delay) ||
+        delay < 0 ||
+        delay > 99 
+      ) {
+        throw new RangeError('False range for delay!');
+      };
+      if (
+        Number.isNaN(timeBackImg) ||
+        !Number.isSafeInteger(timeBackImg) ||
+        timeBackImg < 0 ||
+        timeBackImg > 99 
+      ) {
+        throw new RangeError('False range for timeBackImg!');
+      };
 
-    for (let i = 1; i <= 100; i++) {
-      setTimeout( () => {
-        if ( i === timeBackImg ) {
-          imageElement.setAttribute('src', this.currentSlide);
-        };
-        
-        imageElement.style.opacity = `${i * 0.01}`;
-      }, i === 0 ? delay : i * delay);
+      let opacityLevel = 0;
+
+      imageElement.setAttribute('src', backImg);
+      this.currentIndex = this[direction === 'next' ? 'nextIndex' : 'prevIndex'];
+
+      for (let i = 1; i <= 100; i++) {
+        setTimeout( () => {
+          if ( i === timeBackImg ) {
+            imageElement.setAttribute('src', this.currentSlide);
+          };
+          
+          imageElement.style.opacity = `${i * 0.01}`;
+        }, i === 0 ? delay : i * delay);
+      };
     };
-  };
 };
